@@ -1,4 +1,5 @@
-webglhacks
-==========
+An application for viewing and presenting a sequence of code examples.
 
-Hacking away at webGL
+Undertaken to learn Angular.js.
+
+By Curran Kelleher 3/5/2014
