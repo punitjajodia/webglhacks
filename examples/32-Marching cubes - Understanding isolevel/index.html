@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>First webgl program</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+
+  var DataSet = function(){
+    var data;
+
+    var minVal;
+    var maxVal;
+
+    var x;
+    var y;
+    var z;
+
+    var isoLevel;
+
+     /**
+     * dataset helper: creates a random scalar field based on metaballs
+     * @param _x : width
+     * @param _y : height
+     * @param _z : depth
+     */
+    var randomShape = function(_x, _y, _z)
+    {
+      // data = [];
+      
+      // x = _x;
+      // y = _y;
+      // z = _z;
+      
+      // minVal = Number.MAX_VALUE;
+      // maxVal = Number.MIN_VALUE;
+      
+      // var i;
+      // var j;
+      // var k;
+      
+      // var dx;
+      // var dy;
+      // var dz;
+      
+      // var rx = x / 2;
+      // var ry = y / 2;
+      // var rz = z / 2;
+      
+      // var sp;
+      // var spheres = [];
+      
+      // i = 20;
+      // while ( i-- )
+      // {
+      //   dx = int( rx ) + int( (Math.random() - .5) * x );
+      //   dy = int( ry ) + int( (Math.random() - .5) * y );
+      //   dz = int( rz ) + int( (Math.random() - .5) * z );
+        
+      //   sp = { x:dx, y:dy, z:dz, r: x/2 };
+        
+      //   spheres.push( sp );
+        
+      // }
+      
+      // for (i = 0; i <= x; i++) 
+      // {
+      //   data.push( [] );
+      //   for (j = 0; j <= y; j++) 
+      //   {
+      //     data[ i ].push( [] );
+      //     for (k = 0; k <= z; k++) 
+      //     {
+            
+      //       data[ i ][ j ].push( 128 );
+            
+      //       foreach( sp in spheres )
+      //       {
+              
+      //         dx = i - sp.x;
+      //         dy = j - sp.y;
+      //         dz = k - sp.z;
+              
+      //         var dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
+      //         if ( dist < sp.r ) 
+      //         {
+      //           data[ i ][ j ][ k ] +=  dist;
+      //         }
+              
+      //       }
+      //       if ( data[ i ][ j ][ k ] < minVal ) minVal = data[ i ][ j ][ k ];
+      //       if ( data[ i ][ j ][ k ] > maxVal ) maxVal = data[ i ][ j ][ k ];
+      //     }
+      //   }
+      // }
+      // isoLevel = minVal + ( maxVal - minVal ) / 2;
+      // return;
+    }
+
+    /**
+     * dataset helper: creates a sphere fitting the given dataset size
+     * @param _x : width
+     * @param _y : height
+     * @param _z : depth
+     */
+    var generateSphere = function( _x, _y, _z)
+    {
+      data = [];
+      
+      x = ( _x % 2 == 0 ) ? ( _x + 1 ) : _x;
+      y = ( _y % 2 == 0 ) ? ( _y + 1 ) : _y;
+      z = ( _z % 2 == 0 ) ? ( _z + 1 ) : _z;
+      
+      minVal = Number.MAX_VALUE;
+      maxVal = Number.MIN_VALUE;
+      
+      var i;
+      var j;
+      var k;
+  
+      var dx;
+      var dy;
+      var dz;
+      
+      var rx = x / 2;
+      var ry = y / 2;
+      var rz = z / 2;
+      
+      var val;
+      
+      for (i = 0; i <= x; i++) 
+      {
+        data.push( [] );
+        
+        for (j = 0; j <= y; j++) 
+        {
+          data[ i ].push( [] );
+          
+          for (k = 0; k <= z; k++) 
+          {
+            
+            data[ i ][ j ].push( 0 );
+            
+            dx = rx - i;
+            dy = ry - j;
+            dz = rz - k;
+            
+            val = ( ( 1 - ( ( dx * dx ) / (rx * rx ) ) ) + ( 1 - ( ( dy * dy ) / (ry * ry ) ) ) + ( 1 - ( ( dz * dz ) / (rz * rz ) ) ) ) * 256;
+            data[ i ][ j ][ k ] +=  val;
+            
+            if ( data[ i ][ j ][ k ] < minVal ) minVal = data[ i ][ j ][ k ];
+            if ( data[ i ][ j ][ k ] > maxVal ) maxVal = data[ i ][ j ][ k ];
+          }
+        }
+      }
+      isoLevel = Math.floor(  maxVal * Math.PI / 4 );
+      return this;
+    }
+    
+
+    var getDataSet = function() {
+      return {
+         data: data,
+         minVal: minVal,
+         maxVal: maxVal,
+         x: x,
+         y:y,
+         z:z,
+         isoLevel:isoLevel
+      };
+    }
+
+    return {
+      getDataSet: getDataSet,
+      randomShape: randomShape,
+      generateSphere: generateSphere
+    };
+  }
+
+
+  var ds = DataSet();
+
+  var data = ds.generateSphere(100, 100, 200).getDataSet();
+  console.log(data);
+
+</script>
+</body>
+</html>
