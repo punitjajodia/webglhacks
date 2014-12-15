@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>First webgl program</title>
+</head>
+<body>
+<canvas id="webgl" height="400" width="600"></canvas>	
+
+<script type="text/javascript" src="scripts/webgl-utils.js"></script>
+<script type="text/javascript" src="scripts/webgl-debug.js"></script>
+<script type="text/javascript" src="scripts/cuon-utils.js"></script>
+<script type="text/javascript">
+	 // HelloPoint2.js
+ // Vertex shader program
+ var VSHADER_SOURCE =
+ 'attribute vec4 a_Position;\n' +
+ 'uniform vec4 u_Translation;\n' +
+ 'void main() {\n' +
+ ' gl_Position = a_Position + u_Translation;\n' +
+ '}\n';
+ 
+ // Fragment shader program
+ var FSHADER_SOURCE =
+ 'precision mediump float;\n' +
+ 'uniform vec4 u_Color;\n' +
+  'void main() {\n' +
+  ' gl_FragColor = u_Color;\n' +
+ '}\n'; 
+ // Fragment shader program
+ 
+//normalizes value between 0 and 1
+ function normalize(value, minSource, maxSource, minTarget, maxTarget){
+    var normalized = minTarget + (value - minSource) * (maxTarget - minTarget) / (maxSource - minSource);
+    console.log(normalized);
+    return normalized;
+ }
+
+ function main() {
+ // Retrieve <canvas> element
+ var canvas = document.getElementById('webgl');
+  // Get the rendering context for WebGL
+  var gl = getWebGLContext(canvas); 
+  if(!gl){
+    console.log("Failed to get webGL context");
+  }
+
+  // Initialize shaders
+  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+    console.log("Failed to initialize shaders")
+  }
+
+   var n = initVertexBuffers();
+   if (n < 0) {
+    console.log('Failed to set the positions of the vertices');
+    return;
+  }
+
+
+  // Get the storage location of attribute variable
+  var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+  // var a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
+  var u_Translation = gl.getUniformLocation(gl.program, 'u_Translation');
+  
+  if (a_Position < 0) {
+    console.log('Failed to get the storage location of a_Position');
+    return;
+  }
+
+  gl.uniform4f(u_Translation, 0.4, 0.4, 0.0, 0.0);
+
+ // Set the color for clearing <canvas>
+ gl.clearColor(0.5, 0.5, 0.0, 1.0);
+
+ // Clear <canvas>
+ gl.clear(gl.COLOR_BUFFER_BIT);
+
+ // Draw a point
+ gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
+
+
+ function initVertexBuffers(){
+    var vertices = new Float32Array([ 0.0, 0.5, -0.5, -0.5, 0.5, -0.5, 0.25, 0.25, 0.25, -0.25, -0.25, 0.25, 0.25, 0]);
+    var n=5;
+
+    var vertexBuffer = gl.createBuffer();
+    if(!vertexBuffer){
+      console.log("Failed to create vertexBuffer");
+      return;
+    }
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+    gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+
+    gl.enableVertexAttribArray(a_Position);
+    return n;
+ }
+ 
+} 
+
+main();
+</script>
+</body>
+</html>

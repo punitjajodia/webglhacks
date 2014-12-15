@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>First webgl program</title>
+</head>
+<body>
+
+  <!-- <svg id="drawArea" xmlns= width="500" height="600">
+    <circle r="20" cx="100" cy="100" fill="rgba(200, 0, 0, 0.3)"></circle>
+  </svg>
+ -->
+<script type="text/javascript">
+  //Physics from http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/
+  var svgNS = "http://www.w3.org/2000/svg";
+  
+  var gridSize = 5;
+
+  var canvas = {
+    width : 600,
+    height : 400,
+    xmlns: svgNS
+  };
+
+
+  var circles = [
+    {
+      r : 20,
+      cx : 100,
+      cy : 100,
+      fill : "rgba(200, 0, 0, 0.3)"
+    },
+    {
+      r : 40,
+      cx : 100,
+      cy : 200,
+      fill : "rgba(200, 0, 0, 0.3)"
+    },
+    {
+      r : 20,
+      cx : 200,
+      cy : 100,
+      fill : "rgba(200, 0, 0, 0.3)"
+    },
+    {
+      r : 50,
+      cx : 150,
+      cy : 150,
+      fill : "rgba(200, 0, 0, 0.3)"
+    },
+    {
+      r : 50,
+      cx : 300,
+      cy : 300,
+      fill : "rgba(200, 0, 0, 0.3)"
+    },
+    {
+      r : 25,
+      cx : 350,
+      cy : 350,
+      fill : "rgba(200, 0, 0, 0.3)"
+    }
+  ];
+
+  var drawArea = document.createElementNS(svgNS, "svg");
+  document.body.appendChild(drawArea);
+
+  //Create SVG tag
+  for(var attribute in canvas){
+    if(canvas.hasOwnProperty(attribute)){
+      drawArea.setAttribute(attribute, canvas[attribute]);
+    }
+  }
+
+  //Create the circles
+  for(var i=0, len=circles.length; i<len; i++){
+    var eCircle = document.createElementNS(svgNS, "circle");
+    for(var attribute in circles[i]){
+      if(circles[i].hasOwnProperty(attribute)){
+        eCircle.setAttribute(attribute, circles[i][attribute]);
+      }
+    }
+    drawArea.appendChild(eCircle);
+  }
+
+  //Draw the grid
+  var rows = canvas.height / gridSize;
+  var cols = canvas.width / gridSize;
+
+  for(var i=0; i<rows; i++){
+    for(var j=0; j<cols; j++){
+      var eRect = document.createElementNS(svgNS, "rect");
+      eRect.setAttribute("y", i*gridSize);
+      eRect.setAttribute("width", gridSize);
+      eRect.setAttribute("x", j*gridSize);
+      eRect.setAttribute("height",gridSize);
+      eRect.setAttribute("style", "fill:blue;stroke:pink;stroke-width:1;fill-opacity:0.1;stroke-opacity:0.9");
+
+      var centerY = i*gridSize + gridSize/2;
+      var centerX = j*gridSize + gridSize/2;
+      var fxy=0;
+      for(var k=0, len = circles.length; k<len; k++){
+        var circle = circles[k];
+        var dx = centerX - circle.cx;
+        var dy = centerY - circle.cy;
+        var r = circle.r;
+        fxy = fxy + (r*r)/(dx*dx + dy*dy);
+      }
+
+      if(fxy >= 1) {
+        eRect.style.fill = "green";
+        eRect.style.fillOpacity = 0.4;
+      }
+      
+      drawArea.appendChild(eRect);
+    }
+  }
+
+
+
+</script>
+</body>
+</html>

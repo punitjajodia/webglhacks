@@ -1,0 +1,124 @@
+[
+  {
+    "name": "4-draw point passing coordiates from program",
+    "number": 1,
+    "message": "Draw point using shaders",
+    "files": ["index.html", "scripts/main.js"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "6-create point on click",
+    "number": 2,
+    "message": "Add point on click",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "7-colors based on position of click",
+    "number": 3,
+    "message": "Color of point changes based on position of click",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "7-colors based on position of click",
+    "number": 4,
+    "message": "Color of point changes based on position of click",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "8-use vertex buffer to send multiple data points",
+    "number": 5,
+    "message": "Use vertex buffer to pass multiple points",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "10-use two triangles to create a",
+    "number": 6,
+    "message": "Use triangles to create a rectangle",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "11-translate triangle",
+    "number": 7,
+    "message": "Translate triangle by adding translation values directly",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "12-rotate along z-axis",
+    "number": 8,
+    "message": "Rotate triangle by directly passing sine and cosine of angle to shader",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "13-rotate along z-axis and translate using transformation matrix",
+    "number": 9,
+    "message": "Translate and rotate triangle by passing a transormation matrix to shader",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+   {
+    "name": "15-transform using transformation matrix created by library",
+    "number": 10,
+    "message": "Translate and rotate shape by passing a transormation matrix created by third-party library",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+  {
+    "name": "16-animations using webGL",
+    "number": 11,
+    "message": "Rotate a shape by redrawing it on every frame",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+{
+    "name": "17-rotation around centre by combining translation and rotation",
+    "number": 12,
+    "message": "Rotate a shape around a fixed point by combining rotation with translation",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  },
+  {
+    "name": "18-use multiple buffer objects to send multiple data points and point sizes",
+    "number": 13,
+    "message": "Use multiple buffer objects",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+    
+  },
+  {
+    "name": "19-reuse single buffer object to pass multiple data using offsets",
+    "number": 14,
+    "message": "Use single buffer object and offsets to send multiple data",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+    
+  },
+  {
+    "name": "20-pass color information from vertex shader to fragment shader",
+    "number": 14,
+    "message": "Use single buffer object and offsets to send multiple data",
+    "files": ["index.html"],
+    "url" : "/",
+    "runUrl": "/"
+  }
+]

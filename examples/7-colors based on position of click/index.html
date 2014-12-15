@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>First webgl program</title>
+</head>
+<body>
+<canvas id="webgl" height="400" width="600"></canvas>	
+
+<script type="text/javascript" src="scripts/webgl-utils.js"></script>
+<script type="text/javascript" src="scripts/webgl-debug.js"></script>
+<script type="text/javascript" src="scripts/cuon-utils.js"></script>
+<script type="text/javascript">
+	 // HelloPoint2.js
+ // Vertex shader program
+ var VSHADER_SOURCE =
+ 'attribute vec4 a_Position;\n' +
+ 'attribute float a_PointSize;\n' +
+ 'void main() {\n' +
+ ' gl_Position = a_Position;\n' +
+ ' gl_PointSize = a_PointSize;\n' +
+ '}\n';
+ 
+ // Fragment shader program
+ var FSHADER_SOURCE =
+ 'precision mediump float;\n' +
+ 'uniform vec4 u_Color;\n' +
+  'void main() {\n' +
+  ' gl_FragColor = u_Color;\n' +
+ '}\n'; 
+ // Fragment shader program
+ 
+//normalizes value between 0 and 1
+ function normalize(value, minSource, maxSource, minTarget, maxTarget){
+    var normalized = minTarget + (value - minSource) * (maxTarget - minTarget) / (maxSource - minSource);
+    console.log(normalized);
+    return normalized;
+ }
+
+ function main() {
+ // Retrieve <canvas> element
+ var canvas = document.getElementById('webgl');
+  // Get the rendering context for WebGL
+  var gl = getWebGLContext(canvas); 
+  if(!gl){
+    console.log("Failed to get webGL context");
+  }
+
+  // Initialize shaders
+  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+    console.log("Failed to initialize shaders")
+  }
+  // Get the storage location of attribute variable
+  var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+  var a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
+  var u_Color = gl.getUniformLocation(gl.program, 'u_Color');
+  if (a_Position < 0 || a_PointSize < 0 || u_Color < 0) {
+    console.log('Failed to get the storage location of a_Position');
+    return;
+  }
+
+
+ // Pass vertex position to attribute variable
+ gl.vertexAttrib3f(a_Position, 0.2, 0.0, 0.0);
+
+ gl.vertexAttrib1f(a_PointSize, 30.0);
+
+ gl.uniform4f(u_Color, 0.0, 1.0, 1.0, 1.0);
+
+ // Set the color for clearing <canvas>
+ gl.clearColor(0.5, 0.5, 0.0, 1.0);
+
+ // Clear <canvas>
+ gl.clear(gl.COLOR_BUFFER_BIT);
+
+ // Draw a point
+ gl.drawArrays(gl.POINTS, 0, 1);
+
+  var points = [];
+
+  canvas.addEventListener("mousedown", function(e){
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    var canvasRect = e.target.getBoundingClientRect();
+
+    var canvasLeft = canvasRect.left;
+    var canvasTop = canvasRect.top;
+    var canvasRight = canvasRect.right;
+    var canvasBottom = canvasRect.bottom;
+    
+    var clickX = e.clientX;
+    var clickY = e.clientY;
+
+    console.log("Normalizing X");
+    var clickXnormalized = normalize(clickX, canvasLeft, canvasRight, -1, 1);
+    
+    console.log("Normalizing Y");
+    var clickYnormalized = normalize(clickY, canvasTop, canvasBottom, 1, -1);
+
+    points.push([clickXnormalized, clickYnormalized]);
+
+    for(var i=0, len=points.length; i<len; i++){
+        // Pass vertex position to attribute variable
+        gl.vertexAttrib3f(a_Position, points[i][0], points[i][1], 0.0);
+        gl.vertexAttrib1f(a_PointSize, 5.0);
+        gl.uniform4f(u_Color, points[i][0], points[i][1], points[i][0], 1.0);
+        gl.drawArrays(gl.POINTS, 0, 1);
+    }
+  });
+
+ 
+} 
+
+main();
+</script>
+</body>
+</html>
